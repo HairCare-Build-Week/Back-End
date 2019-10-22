@@ -3,7 +3,7 @@ exports.up = function(knex) {
       .createTable('users', function(users) {
         users.increments();
         users
-            .string('username')
+            .string('username', 128)
             .notNullable()
             .unique();
         users
@@ -27,12 +27,12 @@ exports.up = function(knex) {
             .string('about', 256)
             .notNullable();
         stylists
-            .string('skills', 128);
+            .string('skills', 256);
         stylists
             .string('password', 128)
             .notNullable();
         stylists
-            .string('location', 128)
+            .string('location', 128);
       });
   };
   
