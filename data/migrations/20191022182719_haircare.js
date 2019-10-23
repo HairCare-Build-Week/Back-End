@@ -33,9 +33,32 @@ exports.up = function(knex) {
             .notNullable();
         stylists
             .string('location', 128);
+      })
+
+      .createTable('posts', function(posts) {
+        posts.increments();
+        posts
+            .string('title', 128)
+            .notNullable()
+        posts
+            .string('image', 256)
+            .defaultTo('https://source.unsplash.com/400x400/?hairstylist')
+            .notNullable();
+        posts
+            .string('type', 128);
+        posts
+        .integer('stylistsId')
+        .unsigned()
+        .notNullable();
+        posts
+        .foreign('stylistsId')
+        .references('id')
+        .inTable('stylists')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
       });
   };
   
   exports.down = function(knex) {
-    return knex.schema.dropTableIfExists('stylists').dropTableIfExists('users');
+    return knex.schema.dropTableIfExists('stylists').dropTableIfExists('users').dropTableIfExists('posts')
   };
