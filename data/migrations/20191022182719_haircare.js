@@ -1,64 +1,83 @@
 exports.up = function(knex) {
-    return knex.schema
-      .createTable('users', function(users) {
-        users.increments();
+    return knex.schema   
+    .createTable('users', function(users) {
         users
-            .string('username', 128)
+        .increments();
+        users
+            .string('email', 128)
             .notNullable()
             .unique();
         users
             .string('password', 128)
             .notNullable();
         users
-            .string('location', 128);
-        users
-            .string('email', 128)
-            .notNullable()
-            .unique();
-      })
+        .boolean('stylist');
+    })
 
-      .createTable('stylists', function(stylists) {
-        stylists.increments();
+    .createTable('stylists', function(stylists) {
         stylists
-            .string('username', 128)
+        .increments();
+        stylists
+            .integer('user_id')
             .notNullable()
-            .unique();
+            .references('id')
+            .inTable('users')
+            .onUpdate('CASCADE')
+            .onDelete('CASCADE');
+        stylists
+            .string('username', 255)
+            .notNullable()
         stylists
             .string('about', 256)
             .notNullable();
         stylists
             .string('skills', 256);
         stylists
-            .string('password', 128)
-            .notNullable();
-        stylists
-            .string('location', 128);
-      })
-
-      .createTable('posts', function(posts) {
-        posts.increments();
+            .string('profile_img', 255)
+            .defaultTo('https://source.unsplash.com/200x200/?hair')
+    })
+        
+    .createTable('posts', function(posts) {
         posts
-            .string('title', 128)
+            .increments();
+        posts
+            .integer('stylists_id')
+            .unsigned()
+            .notNullable()
+            .references('id')
+            .inTable('stylists')
+            .onDelete('CASCADE')
+            .onUpdate('CASCADE');
+        posts
+            .string('title', 255)
             .notNullable()
         posts
-            .string('image', 256)
-            .defaultTo('https://source.unsplash.com/400x400/?hairstylist')
-            .notNullable();
+            .string('posts_image', 255)
+            .defaultTo('https://source.unsplash.com/400x400/?hair')
         posts
-            .string('type', 128);
-        posts
-        .integer('stylistsId')
-        .unsigned()
-        .notNullable();
-        posts
-        .foreign('stylistsId')
-        .references('id')
-        .inTable('stylists')
-        .onDelete('CASCADE')
-        .onUpdate('CASCADE');
-      });
-  };
+            .string('description', 255);
+    })
+    .createTable('portfolio', function(portfolio) {
+        portfolio
+            .increments();
+        portfolio
+            .integer('stylists_id')
+            .unsigned()
+            .notNullable()
+            .references('id')
+            .inTable('stylists')
+            .onDelete('CASCADE')
+            .onUpdate('CASCADE');
+        portfolio
+            .string('portfolio_image', 255)
+            .defaultTo('https://source.unsplash.com/400x400/?hair')
+    });
+};
   
   exports.down = function(knex) {
-    return knex.schema.dropTableIfExists('stylists').dropTableIfExists('users').dropTableIfExists('posts')
+    return knex.schema
+        .dropTableIfExists('users')
+        .dropTableIfExists('stylists')
+        .dropTableIfExists('posts')
+        .dropTableIfExists('portfolio')
   };

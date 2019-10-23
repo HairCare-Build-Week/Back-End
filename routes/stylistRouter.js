@@ -8,7 +8,6 @@ const restricted = require('../middleware/restricted.js');
 //define the Router
 const router = express.Router();
 
-
 const sendErr = (msg, res) => {
     res.status(500).json( { errorMessage: `${msg}` })
 };
@@ -30,7 +29,7 @@ router.get('/', restricted, (req, res) => {
 });
 
 //get stylist by ID
-router.get('/:id', (req, res) => {
+router.get('/:id', restricted, (req, res) => {
     const ID = req.params.id;
     Stylists
     .getById(ID)
@@ -48,7 +47,7 @@ router.get('/:id', (req, res) => {
 });
 
 //new stylist
-router.post('/', (req, res) => {
+router.post('/', restricted, (req, res) => {
     Stylists
     .insert(req.body)
     .then( stylist => {
@@ -64,13 +63,13 @@ router.post('/', (req, res) => {
 })
 
 //update stylist
-router.put('/:id', (req, res) => {
+router.put('/:id', restricted, (req, res) => {
     //define id 
     const ID = req.params.id
   
     //define req.body
-    const { username, password, location, about, skills } = req.body;
-    const stylist = { username, password, location, about, skills };
+    const { username, password, type, about, skills } = req.body;
+    const stylist = { username, password, type, about, skills };
   
     //check the req body
     if(!username || !password || !about) { 
@@ -84,7 +83,7 @@ router.put('/:id', (req, res) => {
         return sendMissing(res);
       }
       else{
-        newStylist = { ID, username, password, location, about, skills }
+        newStylist = { ID, username, password, type, about, skills }
         return res.status(201).json(newStylist);
       }
     })
@@ -94,7 +93,7 @@ router.put('/:id', (req, res) => {
 })
 
 //delete stylist 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', restricted, (req, res) => {
     //set id
     const ID = req.params.id
     //delete the post

@@ -2,15 +2,25 @@ const db = require('../data/dbConfig.js');
 
 module.exports = {
   get,
+  getAllUsers,
   getById,
   insert,
   update,
+  updatePost,
   remove,
   findBy,
+  getPostsById,
+  getPortfolioById,
+  removePost,
 };
 
 function get() {
-  return db('stylists').select( 'id', 'username', 'about', 'skills' );
+  return db('stylists')
+}
+
+function getAllUsers(){
+  return db('users')
+  .select('email', 'stylist')
 }
 
 function findBy(filter) {
@@ -19,22 +29,35 @@ function findBy(filter) {
 }
 
 function getById(id) {
-  return db('users')
-    .where({ id })
-    .first();
+  return db('stylists')
+  .where('stylists.id', id)
+  .first()
+}
+
+function getPostsById(id) {
+  return db('posts')
+  .where('posts.stylists_id', id)
+}
+
+function getPortfolioById(id) {
+  return db('portfolio')
+  .where('portfolio.stylists_id', id)
 }
 
 function insert(user) {
-  return db('users')
+  return db('posts')
     .insert(user)
-    .then(ids => {
-      return getById(ids[0]);
-    });
 }
 
 function update(id, changes) {
   return db('users')
-    .where({ id })
+    .where('id', id)
+    .update(changes);
+}
+
+function updatePost(id, changes) {
+  return db('posts')
+    .where('id', id)
     .update(changes);
 }
 
@@ -42,4 +65,10 @@ function remove(id) {
   return db('users')
     .where('id', id)
     .del();
+}
+
+function removePost(id){
+  return db('posts')
+  .where('id', id)
+  .del();
 }
