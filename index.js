@@ -1,3 +1,4 @@
+require("dotenv").config();
 //import the server
 const server = require('./api/server.js');
 
