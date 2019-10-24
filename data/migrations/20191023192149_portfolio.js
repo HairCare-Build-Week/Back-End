@@ -12,7 +12,7 @@ exports.up = function(knex) {
             .onDelete('CASCADE')
             .onUpdate('CASCADE');
         portfolio
-            .string('portfolio_image', 255)
+            .text('portfolio_image')
             .defaultTo('https://source.unsplash.com/400x400/?hair')
     });
 };

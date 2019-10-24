@@ -4,11 +4,11 @@ exports.up = function(knex) {
         users
         .increments();
         users
-            .string('email', 128)
+            .text('email')
             .notNullable()
             .unique();
         users
-            .string('password', 128)
+            .text('password')
             .notNullable();
         users
         .boolean('stylist');

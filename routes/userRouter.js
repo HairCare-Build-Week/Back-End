@@ -28,7 +28,7 @@ router.get('/', restricted, async (req, res) => {
       };
 });
 
-//get requests all users
+//get requests all users users
 router.get('/all', restricted, async (req, res) => {
     try{
         const all = await Users.getAllUsers();
@@ -72,7 +72,7 @@ router.post('/posts', restricted, checked, (req, res) => {
         return res.status(400).json({ error: 'Please provide the NEW posts title and image.' });
         }
     Users
-        .insert(post)
+        .insertPost(post)
         .then(post => {
             
             if (post === undefined) {
@@ -115,14 +115,15 @@ router.put('/:id', restricted, checked, (req, res) => {
             return sendMissing(res);
         }
         else{
-            newUser = { ID, username, password, stylist }
+            newUser = { ID,  email, password, stylist }
             return res.status(201).json({message: 'Update was Successful', newUser});
         }
         })
-        .catch( err => {
-        return sendError( 'This function is currently unavailable', res );
-        })
-    }
+        .catch(err => {
+         console.log(err)
+         return sendError( 'This function is currently unavailable', res );
+    })
+}
 );
 
 //update post

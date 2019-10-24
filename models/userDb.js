@@ -5,6 +5,7 @@ module.exports = {
   getAllUsers,
   getById,
   insert,
+  insertPost,
   update,
   updatePost,
   remove,
@@ -20,12 +21,12 @@ function get() {
 
 function getAllUsers(){
   return db('users')
-  .select('email', 'stylist')
+  .select('*')
 }
 
-function findBy(filter) {
+function findBy(email) {
   return db('users')
-  .where(filter);
+  .where("email", email);
 }
 
 function getById(id) {
@@ -45,9 +46,15 @@ function getPortfolioById(id) {
 }
 
 function insert(user) {
-  return db('posts')
+  return db('users')
     .returning('id')
     .insert(user)
+}
+
+function insertPost(post) {
+  return db('posts')
+    .returning('id')
+    .insert(post)
 }
 
 function update(id, changes) {
