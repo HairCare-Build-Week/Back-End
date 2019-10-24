@@ -1,5 +1,5 @@
 const db = require('../data/dbConfig.js');
-const userDb = require('./userDb.js');
+// const userDb = require('./userDb.js');
 
 describe('users model post', () => {
         beforeEach(async () => {
@@ -8,7 +8,7 @@ describe('users model post', () => {
         });
     describe('insert()', () => {
         it('should insert post', async () => {
-            await userDb.insert({
+            await db('posts').insert({
                 stylists_id: 1,
                 title: 'silver',
                 posts_image: 'string',
