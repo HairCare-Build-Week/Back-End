@@ -28,7 +28,7 @@ router.get('/', restricted, async (req, res) => {
       };
 });
 
-//get requests all users users
+//get requests all users
 router.get('/all', restricted, async (req, res) => {
     try{
         const all = await Users.getAllUsers();
