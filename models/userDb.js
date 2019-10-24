@@ -16,22 +16,22 @@ module.exports = {
 };
 
 function get() {
-  return db('stylists')
+  return db('users')
 }
 
 function getAllUsers(){
   return db('users')
-  .select('*')
 }
 
 function findBy(email) {
   return db('users')
-  .where('email', email);
+  .where( {email} )
+  .first()
 }
 
 function getById(id) {
-  return db('stylists')
-  .where('stylists.id', id)
+  return db('users')
+  .where({ id })
   .first()
 }
 
@@ -47,9 +47,20 @@ function getPortfolioById(id) {
 
 function insert(user) {
   return db('users')
-    .returning('id')
-    .insert(user)
+    .insert(user, "id" )
+    .then(ids => {
+      const [id] = ids;
+      return getById(id);
+    });
 }
+
+// function insert(stylist) {
+//   return db('stylists')
+//     .insert(stylist)
+//     .then(ids => {
+//       return getById(ids[0]);
+//     });
+// }
 
 function insertPost(post) {
   return db('posts')

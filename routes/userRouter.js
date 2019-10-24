@@ -32,9 +32,9 @@ router.get('/', restricted, async (req, res) => {
 router.get('/all', restricted, async (req, res) => {
     try{
         const all = await Users.getAllUsers();
-        res.status(200).json({all});
+        res.status(200).json(all);
     }
-    catch( err ) { res.send(err) }
+    catch( err ) { res.status(500).json(err) }
 });
 
 
