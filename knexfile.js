@@ -29,15 +29,15 @@ module.exports = {
     },
   },
 
-  production: {
-    client: 'pg',
-    connection: dbConnection,
-    useNullAsDefault: true,
-    migrations: {
-      directory: './data/migrations',
-    },
-    seeds: {
-      directory: './data/seeds',
-    },
-  },
+  // production: {
+  //   client: 'pg',
+  //   connection: dbConnection,
+  //   useNullAsDefault: true,
+  //   migrations: {
+  //     directory: './data/migrations',
+  //   },
+  //   seeds: {
+  //     directory: './data/seeds',
+  //   },
+  // },
 };
