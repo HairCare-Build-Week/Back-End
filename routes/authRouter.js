@@ -1,3 +1,4 @@
+require('dotenv').config();
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -14,26 +15,33 @@ router.post('/register', (req, res) => {
   Users
     .insert(user)//uses add from users-model
     .then(saved => {
-      res.status(201).json(saved);
+      res.status(201).json({
+        message: 'You have Successfully registered', saved});
     })
     .catch(error => {
-      res.status(500).json(error);
+      res.status(500).json({error:error});
     });
+  // res.json('hllo')
 });
 
 router.post('/login', (req, res) => {
-  let { username, password } = req.body;
+  let { email, password } = req.body;
 
-  Users.findBy({ username })//uses findby from users-model
-    .first()
+  Users.findBy(email)//uses findby from users-model
     .then(user => {
+      // console.log('this is from login', user);
       if (user && bcrypt.compareSync(password, user.password)) {
         //generate a token
+        console.log(user)
         const token = genToken(user);
-
+        // console.log('this is the token', token);
+        const ID = user.id;
+        const type = user.stylist;
         res.status(200).json({
-          message: `Welcome ${user.username}!`,
-          token, // added token
+          message: `Welcome!`,
+          token,// added token
+          ID,
+          type 
         });
       } else {
         res.status(401).json({ message: 'Invalid Credentials' });
@@ -46,8 +54,9 @@ router.post('/login', (req, res) => {
 
 function genToken(user) {
   const payload = {
-    subject: user.id,
-    username: user.username
+    username: user.email,
+   subject: user.id,
+
   };
   const options ={
     expiresIn: '1d',

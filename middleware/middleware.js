@@ -30,4 +30,4 @@ function validateUser(req, res, next) {
         else {
             res.status(400).json({message: 'Missing user data.'});
         }
-}; 
+};

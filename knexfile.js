@@ -1,5 +1,5 @@
 // Update with your config settings.
-const dbConnection = process.env.DATABASE_URL;
+// const dbConnection = process.env.DATABASE_URL;
 
 module.exports = {
   development: {
@@ -31,7 +31,13 @@ module.exports = {
 
   production: {
     client: 'pg',
-    connection: dbConnection,
+    useNullAsDefault: true,
+    connection: {
+      host: 'salt.db.elephantsql.com',
+      user: 'sztxxlqt',
+      password: 'BaqFcTEqCWQkqewtsvyQz12ejK7lv74g',
+      database: 'sztxxlqt'
+    },
     migrations: {
       directory: './data/migrations',
     },
@@ -39,4 +45,4 @@ module.exports = {
       directory: './data/seeds',
     },
   },
-}; 
+};
